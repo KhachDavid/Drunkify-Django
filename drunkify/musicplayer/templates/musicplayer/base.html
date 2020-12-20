@@ -1,0 +1,27 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <title>{% block title %}TITLE GOES HERE{% endblock %}</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <!-- Tab Logo -->
+        <link rel="shortcut icon" type="image/x-icon" href="{% static 'musicplayer/spotifylogo.png' %}" />
+
+        <!-- Font -->
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i"
+              >
+
+        <!-- Main CSS-->
+        <link rel = stylesheet type="text/css" href="{% static 'musicplayer/main.css' %}"">
+    </head>
+
+    <body>
+        <!-- Jquery JS-->
+        <script src="musicplayer/jquery.min.js"></script> <!-- Useless...Added just in case -->
+        {% block content %}BODY CONTENT GOES HERE{% endblock %}
+    </body>
+
+</html>

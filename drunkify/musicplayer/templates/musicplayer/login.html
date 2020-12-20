@@ -1,0 +1,43 @@
+{% extends 'musicplayer/base.html' %}
+
+{% block title %}Drunkify Sign-In{% endblock %}
+
+{% block content %}
+<div class="page-wrapper bg-gra-01 p-t-180 p-b-100 font-poppins">
+    <div class="wrapper wrapper--w780">
+        <div class="card card-3">
+            <div class="card-heading"></div>
+            <div class="card-body">
+                <h2 class="title">{{ headline }}</h2>
+                <form >
+                    <div class="form-group">
+                        <input class="form-control" type="text" placeholder="Username or Email" name="username" required>
+                        <div class="help-block with-errors"></div>
+                        <p style="color: red">{{ alert }}</p>
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control" type="password" name="password" placeholder="Password" required>
+                        <div class="help-block with-errors"></div>
+                    </div>
+
+                    <div class="p-t-10">
+                        <button type="submit" class="btn btn--pill btn--green">
+                            Log In
+                        </button>
+                        <button type="submit" class="btn btn--pill btn--reg">
+                            <a href ="{% url 'music-player-register' %}" target="_blank">Register</a>
+                        </button>
+                        <button type="submit" class="btn btn--pill btn--reg">
+                            <a href ="{% url 'spotify-auth' %}" target="_blank">Sign-in With Spotify: Recommended</a>
+                        </button>
+                        <button class="forgot" >
+                            <a href ="{% url 'music-player-recover' %}">Forgot Password?</a>
+                        </button> 
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

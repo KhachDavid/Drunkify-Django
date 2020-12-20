@@ -1,0 +1,61 @@
+{% extends 'musicplayer/base.html' %}
+
+{% block title %}Drunkify - Register{% endblock %}
+
+{% block content %}
+
+<div class="page-wrapper bg-gra-01 p-t-180 p-b-100 font-poppins">
+    <div class="wrapper wrapper--w780">
+        <div class="card card-3">
+            <div class="card-heading"></div>
+            <div class="card-body">
+                <h2 class="title">{{ headline }}</h2>
+                <form action = "{% url 'music-player-register' %}" data-toggle="validator" id="registration" method="post">
+
+                    <div class="form-group">
+                        <input class="form-control" id="name" name="first_name" placeholder = "Name" required type="text">
+                        <div class="help-block with-errors"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <input class="form-control" id="email" name="email" placeholder = "Email Address"required type="email">
+                        <div class="help-block with-errors"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <input class="form-control" id="username" placeholder = "Username" name="username" required type="text">
+                        <div class="help-block with-errors"></div>
+                        <p style="color: red">{{ alert }}</p>
+                    </div>
+
+                    <div class="form-group">
+                        <input class="form-control" id ="password" minlength="8" type="password" name="password" placeholder="Password" required><br>
+                    </div>
+
+                    <div class="form-group">
+                        <input class="form-control" type="number" name="weight" placeholder="Weight (kg)" required>
+                        <div class="help-block with-errors"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="rs-select2 js-select-simple select--no-search">
+                            <select name="gender" required>
+                                <option value = "" disabled="disabled" selected="selected">Gender</option>
+                                <option value = "Male">Male</option>
+                                <option value = "Female">Female</option>
+                                <option value = "Other">Other</option>
+                            </select>
+                            <div class="select-dropdown"></div>
+                        </div>
+                    </div>
+
+                    <div class="p-t-10">
+                        <input class="btn btn--pill btn--green" type="submit" value="Register">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
