@@ -112,5 +112,11 @@ def callback(request):
         sad_or_happy = None
         return render(request, "main.html", prof_pic, random_track, users_name)
     """
-    return render(request, "spotify/main.html", prof_pic, random_track, users_name)
+    context= {
+        'prof_pic': prof_pic,
+        'random_track': random_track,
+        'users_name': users_name,
+    }
+
+    return render(request, "spotify/main.html", context)
 

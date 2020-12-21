@@ -19,11 +19,15 @@
     </head>
 
     <body>
-        {% for message in get_flashed_messages() %}
-            {{ message }}
-        {% endfor %}
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}   
 
-        <script src="{% static spotify/global.js %}"></script>
+        <script src="spotify/global.js"></script>
         {% block content %}BODY CONTENT GOES HERE{% endblock %}
     </body>
 </html>

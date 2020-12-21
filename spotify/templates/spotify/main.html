@@ -5,7 +5,7 @@
 {% block content %}
 <div id="file-page">
     <div class="file-title"> <h1>Share your mood with these four questions</h1></div>
-        <form action = "{{ url_for('auth')}}" method="post">
+        <form action = "{% url 'spotify-auth' %}" method="post">
 
             <div id="drinks">
                 <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
@@ -105,12 +105,12 @@
 
     <iframe src="{{ random_track }}" class="Play" width="300" height="90" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
     <button type="submit" >
-        <a href ="/auth" style="text-decoration: none;">Click to get another one</a>
+        <a href ="{% url 'spotify-auth' %}" style="text-decoration: none;">Click to get another one</a>
     </button>
 </div>
 
 <button type="submit" >
-    <a href ="/logout" style="text-decoration: none;">Logout</a>
+    <a href ="#" style="text-decoration: none;">Logout</a>
 </button>
 
 {% endblock %}
