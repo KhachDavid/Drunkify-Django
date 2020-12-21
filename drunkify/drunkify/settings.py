@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'users.apps.UsersConfig',
     'spotify.apps.SpotifyConfig',
     'musicplayer.apps.MusicplayerConfig',
     'django.contrib.admin',

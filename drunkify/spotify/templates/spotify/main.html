@@ -1,0 +1,116 @@
+{% extends 'spotify/base_2.html' %}
+
+{% block title %}{{ users_name }}{% endblock %}
+
+{% block content %}
+<div id="file-page">
+    <div class="file-title"> <h1>Share your mood with these four questions</h1></div>
+        <form action = "{{ url_for('auth')}}" method="post">
+
+            <div id="drinks">
+                <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+                <a class="next" onclick="plusSlides(1)">&#10095;</a>
+                <label>
+				    <div class="mySlides" style="display: block;">
+                        <img src="{{ prof_pic }}" alt="image alt text" width="100" height="100" class="rounded-corners"/>
+                        <div>
+                            <select name="dance_or_no" required>
+                                <option value = "" disabled="disabled" selected="selected">Do you want to dance?</option>
+                                <option value = "yes">Yes :)</option>
+                                <option value = "no">No :(</option>
+                            </select>
+                        </div>
+                    </div>
+                </label>
+
+			    <label>
+				    <div class="mySlides">
+                        <img src="static/img/beer.png">
+                        <div>
+                            <select name="sad_or_happy" required>
+                                <option value = "" disabled="disabled" selected="selected">What is your mood?</option>
+                                <option value = "sad">Sad :(</option>
+                                <option value = "happy">Happy :)</option>
+                            </select>
+                        </div>
+                    </div>
+                </label>
+
+			    <label>
+                    <div class="mySlides">
+                        <img src="static/img/vodka.png">
+                        <div>
+                            <select name="tired_or_not" required>
+                                <option value = "" disabled="disabled" selected="selected">Do you feel tired?</option>
+                                <option value = "yes">Yes :(</option>
+                                <option value = "no">No :)</option>
+                            </select>
+                        </div>
+                    </div>
+
+				    <div class="mySlides">
+                        <img src="static/img/gin.png">
+                         <div>
+                            <select name="alone_or_not" required>
+                                <option value = "" disabled="disabled" selected="selected">Are you alone?</option>
+                                <option value = "yes">Yes :(</option>
+                                <option value = "no">No :)</option>
+                            </select>
+                        </div>
+                    </div>
+<!--
+                    <div class="mySlides">
+                        <img src="static/img/rum.png">
+                            <p class="drink-name"></p>
+	                     <input type="number" placeholder="Servings" name="bottlesDrunk_4">
+                    </div>
+
+                    <div class="mySlides">
+                        <img src="static/img/tequila.png">
+                            <p class="drink-name"></p>
+	                    <input type="number" placeholder="Servings" name="bottlesDrunk_5">
+                    </div>
+
+                    <div class="mySlides">
+                        <img src="static/img/whiskey.png">
+                            <p class="drink-name"></p>
+	                    <input type="number" placeholder="Servings" name="bottlesDrunk_6">
+                    </div>
+
+                    <div class="mySlides">
+                        <img src="static/img/rakia.png">
+                            <p class="drink-name"></p>
+	                    <input type="number" placeholder="Servings" name="bottlesDrunk_7">
+                    </div> !-->
+                </label>
+
+                <div class="dot-container">
+                    <span class="dot" onclick="currentSlide(1)"></span>
+                    <span class="dot" onclick="currentSlide(2)"></span>
+                    <span class="dot" onclick="currentSlide(3)"></span>
+                    <span class="dot" onclick="currentSlide(4)"></span>
+      <!--          <span class="dot" onclick="currentSlide(5)"></span>
+                    <span class="dot" onclick="currentSlide(6)"></span>
+                    <span class="dot" onclick="currentSlide(7)"></span>
+                    <span class="dot" onclick="currentSlide(8)"></span>!-->
+                </div>
+
+			</div>
+            <input type="submit" value="Submit" class="drink-it">
+        </form>
+
+    <div id="drink-score"><h1> Your Song is
+        <div id="score"></div></h1>
+    </div>
+
+    <iframe src="{{ random_track }}" class="Play" width="300" height="90" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
+    <button type="submit" >
+        <a href ="/auth" style="text-decoration: none;">Click to get another one</a>
+    </button>
+</div>
+
+<button type="submit" >
+    <a href ="/logout" style="text-decoration: none;">Logout</a>
+</button>
+
+{% endblock %}

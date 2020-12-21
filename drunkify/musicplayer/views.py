@@ -4,9 +4,6 @@ from .models import Song
 def login(request):
     return render(request, 'musicplayer/login.html')
 
-def register(request):
-    return render(request, 'musicplayer/register.html')
-
 def recover(request):
     return render(request, 'musicplayer/recover.html')
 

@@ -1,0 +1,44 @@
+{% extends 'musicplayer/base.html' %}
+
+{% block title %}Drunkify - Register{% endblock %}
+
+{% block content %}
+
+<div class="page-wrapper bg-gra-01 p-t-180 p-b-100 font-poppins">
+    <div class="wrapper wrapper--w780">
+        <div class="card card-3">
+            <div class="card-heading"></div>
+            <div class="card-body">
+                <h2 class="title">Join Today</h2>
+                <form data-toggle="validator" id="registration" method="POST">
+                    {% csrf_token %}
+                    <div class="form-group">
+                            <div class="form-group">
+                                <input class="form-control" type="text" name="username" placeholder="Username" maxlength="150" autofocus required id="id_username">
+                                <p style="color: red">{% block includes %}
+                                    {{ alert }}
+                                    {% endblock includes %}</p>
+                                <div class="help-block with-errors"></div>
+                            </div>
+                            <div class="form-group">
+                                <input class="form-control" type="email" name="email" placeholder="Email" required id="id_email">
+                                <div class="help-block with-errors"></div>
+                            </div>
+                            <div class="form-group">
+                                <input class="form-control" type="password" name="password1" placeholder="Password"  autocomplete="new-password" required id="id_password1">
+                                <div class="help-block with-errors"></div>
+                            </div>
+                            <div>
+                                <input class="form-control" type="password" name="password2" placeholder="Confirm Password" autocomplete="new-password" required id="id_password2">
+                            </div>
+                    </div>
+                    <div class="p-t-10">
+                        <input class="btn btn--pill btn--green" type="submit" value="Sign-Up">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

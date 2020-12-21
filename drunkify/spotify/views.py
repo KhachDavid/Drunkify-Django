@@ -12,7 +12,7 @@ API_VERSION = "v1"
 SPOTIFY_API_URL = "{}/{}".format(SPOTIFY_API_BASE_URL, API_VERSION)
 
 CLIENT_SIDE_URL = "http://127.0.0.1"
-PORT = 8000
+PORT = 5000
 REDIRECT_URI = "{}:{}/callback".format(CLIENT_SIDE_URL, PORT)
 print(REDIRECT_URI)
 
@@ -25,7 +25,7 @@ def callback(request):
     client.set_show_dialog_false()
 
     # Authorization
-    auth_token = request.args['code']
+    auth_token = request.GET['code']
     code_payload = {
         "grant_type": "authorization_code",
         "code": str(auth_token),
@@ -99,11 +99,11 @@ def callback(request):
     # run_speech_recognizer()
 
     # Analyze user answers
-    dance_or_no = session.get('dance_or_no', None)  # yes OR no
-    sad_or_happy = session.get('sad_or_happy', None)  # sad OR happy
-    alone_or_not = session.get('alone_or_not', None)  # yes OR no
-    tired_or_not = session.get('tired_or_not', None)  # yes OR no
-
+    # dance_or_no = session.get('dance_or_no', None)  # yes OR no
+    # sad_or_happy = session.get('sad_or_happy', None)  # sad OR happy
+    # alone_or_not = session.get('alone_or_not', None)  # yes OR no
+    # tired_or_not = session.get('tired_or_not', None)  # yes OR no
+    """
     if sad_or_happy is not None:
         if str(sad_or_happy).lower() == 'sad':
             random_track = client.get_low_valence_songs(audio_features)
@@ -111,5 +111,6 @@ def callback(request):
             random_track = client.get_high_valence_songs(audio_features)
         sad_or_happy = None
         return render(request, "main.html", prof_pic, random_track, users_name)
-    return render(request, "main.html", prof_pic, random_track, users_name)
+    """
+    return render(request, "spotify/main.html", prof_pic, random_track, users_name)
 

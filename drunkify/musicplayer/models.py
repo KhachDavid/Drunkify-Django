@@ -10,7 +10,7 @@ class Song(models.Model):
     valence = models.DecimalField(max_digits=7, decimal_places=4)
     energy = models.DecimalField(max_digits=7, decimal_places=4)
     danceability = models.DecimalField(max_digits=7, decimal_places=4)
-    track_id = models.CharField(max_length=100)
+
 
     def __str__(self):
         return self.song
@@ -18,11 +18,6 @@ class Song(models.Model):
     def get_valence(self):
         return self.valence
 
-    def get_track_id(self):
-        return self.track_id
-
     def compare_to(self, other_song):
         return self.valence - other_song.get_valence()
 
-    def embed_by_id(self):
-        return f"https://open.spotify.com/embed/track/{self.track_id}"

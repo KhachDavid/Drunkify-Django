@@ -15,9 +15,13 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from users import views as user_views
+from spotify import views as spotify_views
 
 urlpatterns = [
     path('admin/', admin.site.urls), 
     path('', include('musicplayer.urls')),
-    path('auth/', include('spotify.urls'))
+    path('auth/', include('spotify.urls')),
+    path('callback/', spotify_views.callback, name='callback'),
+    path('register/', user_views.register, name='register'),
 ]
