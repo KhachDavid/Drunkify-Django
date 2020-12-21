@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from .forms import UserRegisterForm
@@ -9,10 +10,16 @@ def register(request):
         if form.is_valid():
             form.save()
             username = form.cleaned_data.get('username')
-            messages.success(request, f'Account created for {username}!')
-            return redirect('music-player-login')
+            email = form.cleaned_data.get('email')
+            emails = User.objects.filter(email=email).first()
+            if isinstance(emails, type(None)):
+                messages.success(request, f'Account created for {username}!')
+                return redirect('music-player-login')
+            args = {}
+            text = "Email is taken"
+            args['alert'] = text
+            return render(request, 'users/register.html', args)
         else:
-            form = UserRegisterForm()
             args = {}
             text = "Username is taken"
             args['alert'] = text
