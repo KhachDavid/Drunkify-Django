@@ -1,6 +1,7 @@
 from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 from .forms import UserRegisterForm
 
 
@@ -14,7 +15,7 @@ def register(request):
             emails = User.objects.filter(email=email).first()
             if isinstance(emails, type(None)):
                 messages.success(request, f'Account created for {username}!')
-                return redirect('music-player-login')
+                return redirect('login')
             args = {}
             text = "Email is taken"
             args['alert'] = text
@@ -27,3 +28,8 @@ def register(request):
     else:
         form = UserRegisterForm()
     return render(request, 'users/register.html', {'form': form})
+
+
+@login_required
+def profile(request):
+    return render(request, 'users/profile.html')

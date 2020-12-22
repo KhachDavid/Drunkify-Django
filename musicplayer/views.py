@@ -1,11 +1,10 @@
 from django.shortcuts import render
 from .models import Song
 
-def login(request):
-    return render(request, 'musicplayer/login.html')
+def home(request):
+    return render(request, 'musicplayer/home.html')
 
-def recover(request):
-    return render(request, 'musicplayer/recover.html')
+
 
 
 """

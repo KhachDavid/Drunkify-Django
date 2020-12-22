@@ -20,12 +20,12 @@
 
     <body>
         {% if messages %}
-            {% for message in messages %}
-              <div class="alert alert-{{ message.tags }}">
-                {{ message }}
-              </div>
-            {% endfor %}
-          {% endif %}
+          {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">
+              {{ message }}
+            </div>
+          {% endfor %}
+        {% endif %}
         <!-- Jquery JS-->
         <script src="musicplayer/jquery.min.js"></script> <!-- Useless...Added just in case -->
         {% block content %}BODY CONTENT GOES HERE{% endblock %}

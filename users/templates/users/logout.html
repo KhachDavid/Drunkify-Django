@@ -1,0 +1,9 @@
+{% extends "musicplayer/base_2.html" %}
+{% block content %}
+    <h2>You have been logged out</h2>
+    
+    <div>
+        <a href="{% url 'login' %}">Log In Again</a>
+    </div>
+    
+{% endblock content %}

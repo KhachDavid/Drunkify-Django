@@ -1,0 +1,70 @@
+{% extends 'musicplayer/base_2.html' %}
+{% load static %}
+{% block title %}{{ user.name }}{% endblock %}
+
+{% block content %}
+<div class="file-title"> <h1>Enjoy Some Music</h1></div>
+<form method="post">
+    <div id="drinks">
+        <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+        <a class="next" onclick="plusSlides(1)">&#10095;</a>
+        <label>
+             <div class="mySlides" style="display: block;">
+                <img src="{% static 'musicplayer/wine.png' %}">
+                    <p class="drink-name">How many shots have you had?</p>
+                <input type="number" placeholder="Servings" name="bottlesDrunk_0" required>
+            </div>
+        </label>
+
+        <label>
+            <div class="mySlides">
+                <img src="{% static 'musicplayer/beer.png' %}">
+                    <p class="drink-name">Is it a sad or a happy occasion?</p>
+                <input type="text" placeholder="Sad or Happy" name="bottlesDrunk_1" required>
+            </div>
+        </label>
+
+        <label>
+            <div class="mySlides">
+                <img src="{% static 'musicplayer/vodka.png' %}">
+                    <p class="drink-name">Vodka</p>
+                <input type="number" placeholder="Servings" name="bottlesDrunk_2">
+            </div>
+
+            <div class="mySlides">
+                <img src="{% static 'musicplayer/gin.png' %}">
+                    <p class="drink-name">Gin</p>
+                <input type="number" placeholder="Servings" name="bottlesDrunk_3">
+            </div>
+
+            <div class="mySlides">
+                <img src="{% static 'musicplayer/rum.png' %}">
+                    <p class="drink-name">Rum</p>
+                <input type="number" placeholder="Servings" name="bottlesDrunk_4">
+            </div>
+
+            <div class="dot-container">
+                <span class="dot" onclick="currentSlide(1)"></span>
+                <span class="dot" onclick="currentSlide(2)"></span>
+                <span class="dot" onclick="currentSlide(3)"></span>
+                <span class="dot" onclick="currentSlide(4)"></span>
+                <span class="dot" onclick="currentSlide(5)"></span>
+            </div>
+        </div>
+    <input type="submit" value="Submit" class="drink-it">
+</form>
+
+<div id="drink-score">
+    <h1> Your BAC is <div id="score">0!</div></h1>
+</div>
+
+<div class="audio-buttons">
+    <div class="drink-audio">
+        <h3>Click the button to be redirected to a spotify playlist</h3>
+    </div>
+    <form action="#"method="get" target="_blank" rel="noopener noreferrer">
+        <button type="submit">Enjoy the playlist</button>
+    </form>
+</div>
+
+{% endblock %}

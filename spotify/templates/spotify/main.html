@@ -1,9 +1,8 @@
-{% extends 'spotify/base_2.html' %}
+{% extends 'musicplayer/base_2.html' %}
 
 {% block title %}{{ users_name }}{% endblock %}
 
 {% block content %}
-<div id="file-page">
     <div class="file-title"> <h1>Share your mood with these four questions</h1></div>
         <form action = "{% url 'spotify-auth' %}" method="post">
 
