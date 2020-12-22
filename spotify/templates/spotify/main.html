@@ -1,5 +1,5 @@
 {% extends 'musicplayer/base_2.html' %}
-
+{% load static %}
 {% block title %}{{ users_name }}{% endblock %}
 
 {% block content %}
@@ -24,7 +24,7 @@
 
 			    <label>
 				    <div class="mySlides">
-                        <img src="static/img/beer.png">
+                        <img src="{% static 'musicplayer/beer.png' %}">
                         <div>
                             <select name="sad_or_happy" required>
                                 <option value = "" disabled="disabled" selected="selected">What is your mood?</option>
@@ -37,7 +37,7 @@
 
 			    <label>
                     <div class="mySlides">
-                        <img src="static/img/vodka.png">
+                        <img src="{% static 'musicplayer/vodka.png' %}">
                         <div>
                             <select name="tired_or_not" required>
                                 <option value = "" disabled="disabled" selected="selected">Do you feel tired?</option>
@@ -48,7 +48,7 @@
                     </div>
 
 				    <div class="mySlides">
-                        <img src="static/img/gin.png">
+                        <img src="{% static 'musicplayer/gin.png' %}">
                          <div>
                             <select name="alone_or_not" required>
                                 <option value = "" disabled="disabled" selected="selected">Are you alone?</option>
@@ -107,9 +107,5 @@
         <a href ="{% url 'spotify-auth' %}" style="text-decoration: none;">Click to get another one</a>
     </button>
 </div>
-
-<button type="submit" >
-    <a href ="#" style="text-decoration: none;">Logout</a>
-</button>
 
 {% endblock %}
