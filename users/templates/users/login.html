@@ -9,7 +9,7 @@
             <div class="card-heading"></div>
             <div class="card-body">
                 <h2 class="title">{{ headline }}</h2>
-                <form method="POST"\>
+                <form method="POST">
                     {% csrf_token %}
                     <div class="form-group">
                         <input class="form-control" type="text" placeholder="Username or Email" name="username" required>
