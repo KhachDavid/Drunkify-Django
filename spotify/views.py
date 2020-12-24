@@ -1,7 +1,6 @@
 from django.shortcuts import render, redirect
 from .SpotifyAPI import SpotifyAPI, embedify
 import json, requests, random
-import speech_recognition as sr
 from .forms import MoodForm
 
 ClientID = 'fb1324d95b384e17a6e4838f3ab7cfb8'
