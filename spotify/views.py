@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect
-from .SpotifyAPI import SpotifyAPI
+from .SpotifyAPI import SpotifyAPI, embedify
 import json, requests, random
-
+import speech_recognition as sr
+from .forms import MoodForm
 
 ClientID = 'fb1324d95b384e17a6e4838f3ab7cfb8'
 ClientSecret = '0ca1f712c71e4afca45509ee6769c2de'
@@ -17,11 +18,19 @@ REDIRECT_URI = "{}:{}/callback".format(CLIENT_SIDE_URL, PORT)
 print(REDIRECT_URI)
 
 def auth(request):
-    print('jkashdskjdhkjshd')
+    if request.method == 'POST':
+        dance_or_no = request.POST.get('dance_or_no', False)
+        sad_or_happy = request.POST.get('sad_or_happy', True)
+        tired_or_not = request.POST.get('tired_or_not', False)
+        alone_or_not = request.POST.get('alone_or_not', False)
+        request.session['dance_or_no'] = dance_or_no
+        request.session['sad_or_happy'] = sad_or_happy
+        request.session['tired_or_not'] = tired_or_not
+        request.session['alone_or_not'] = alone_or_not
+        print('authenticated!!')
     return redirect(client.generate_auth_url())
 
 def callback(request):
-    global random_track1
     client.set_show_dialog_false()
 
     # Authorization
@@ -78,7 +87,7 @@ def callback(request):
     # To This https://open.spotify.com/embed/track/2g8HN35AnVGIk7B8yMucww
 
     # Get a Random Track in case the user types in nothing
-    random_track = client.embedify(random_track)
+    random_track = embedify(random_track)
 
     # Profile Picture and Name
     users_name = display_arr[0]['display_name']
@@ -93,29 +102,50 @@ def callback(request):
 
     # Obtain Audio Features For the Songs
     audio_features = client.get_audio_features(auth_header=authorization_header, track_ids=tracks)
-    # print(audio_features['audio_features'][0]['danceability'])
+    print(audio_features['audio_features'][0]['danceability'])
 
     # Speech Recognizer
     # run_speech_recognizer()
 
     # Analyze user answers
-    # dance_or_no = session.get('dance_or_no', None)  # yes OR no
-    # sad_or_happy = session.get('sad_or_happy', None)  # sad OR happy
-    # alone_or_not = session.get('alone_or_not', None)  # yes OR no
-    # tired_or_not = session.get('tired_or_not', None)  # yes OR no
-    """
-    if sad_or_happy is not None:
-        if str(sad_or_happy).lower() == 'sad':
-            random_track = client.get_low_valence_songs(audio_features)
-        if str(sad_or_happy).lower() == 'happy':
-            random_track = client.get_high_valence_songs(audio_features)
-        sad_or_happy = None
-        return render(request, "main.html", prof_pic, random_track, users_name)
-    """
+    if request.method == 'POST':
+        form = MoodForm(request.POST)
+
+        if form.is_valid():
+            sad_or_happy = form.cleaned_data.get('sad_or_happy')
+            print(f'{sad_or_happy} :sad_or_happy')
+            """
+            listener = sr.Recognizer()
+            if not client.get_show_dialog():
+                try: 
+                    with sr.Microphone() as source:
+                        print('...listening')
+                        voice = listener.listen(source)
+                        command = listener.recognize_google(voice)
+                        command = command.lower()
+                        print(command)
+                except: 
+                    pass
+            """
+            if sad_or_happy is not None:
+                if 'sad' in sad_or_happy:
+                    random_track = client.get_low_valence_songs(audio_features)
+                if 'happy' in sad_or_happy:
+                    random_track = client.get_high_valence_songs(audio_features)
+                sad_or_happy = None
+                context= {
+                    'prof_pic': prof_pic,
+                    'random_track': random_track,
+                    'users_name': users_name,
+                    'form': form,
+                }
+                return render(request, "spotify/main.html", context)
+    form = MoodForm()
     context= {
         'prof_pic': prof_pic,
         'random_track': random_track,
         'users_name': users_name,
+        'form': form,
     }
 
     return render(request, "spotify/main.html", context)

@@ -1,0 +1,28 @@
+{% extends 'musicplayer/base_2.html' %}
+{% load crispy_forms_tags %}
+{% block title %}Edit Profile{% endblock %}
+
+{% block content %}
+
+<div class="page-wrapper bg-gra-01 p-t-180 p-b-100 font-poppins">
+    <div class="wrapper wrapper--w780">
+        
+            <div class="card-heading"></div>
+            <div class="card-body"></div>
+                <h2 class="title">Profile Info</h2>
+                <form data-toggle="validator" id="registration" method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="form-group">
+                            {{ u_form|crispy }}
+                            {{ p_form|crispy }}
+                    </div>
+                    <div class="p-t-10">
+                        <input class="btn btn--pill btn--green" type="submit" value="Update">
+                    </div>
+                </form>
+            
+        </div>
+    </div>
+</div>
+
+{% endblock %}

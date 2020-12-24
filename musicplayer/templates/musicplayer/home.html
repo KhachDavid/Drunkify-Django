@@ -1,6 +1,12 @@
 {% extends 'musicplayer/base_2.html' %}
 {% load static %}
-{% block title %}{{ user.name }}{% endblock %}
+{% block title %}
+{% if user.is_authenticated %}
+    {{ user.username}} - Dashboard
+{% else %}
+    Drunkify Homepage
+{% endif %}
+{% endblock %}
 
 {% block content %}
 <div class="file-title"> <h1>Enjoy Some Music</h1></div>

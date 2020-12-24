@@ -6,6 +6,12 @@ from musicplayer.models import Song
 from .quick_sort import quick_sort
 import random
 
+def embedify(random_track):
+    random_track2 = random_track
+    x = random_track2.split("/")
+    random_track1 = x[0] + "//" + x[2] + "/embed/" + x[3] + "/" + x[4]  # Adding the embed parameter to send through
+    # jinja
+    return random_track1
 
 class SpotifyAPI(object):
     # This variable gives access to the API
@@ -306,12 +312,6 @@ class SpotifyAPI(object):
 
         r_tt = requests.get(url, headers=auth_header)  # Get JSON of each track's audio features
         return r_tt.json()
-
-    def embedify(self, random_track):
-        x = random_track.split("/")
-        random_track = x[0] + "//" + x[2] + "/embed/" + x[3] + "/" + x[4]  # Adding the embed parameter to send through
-        # jinja
-        return random_track
 
     def get_low_valence_songs(self, audio_features):
         tracks = []

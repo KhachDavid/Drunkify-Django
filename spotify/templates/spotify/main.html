@@ -4,8 +4,8 @@
 
 {% block content %}
     <div class="file-title"> <h1>Share your mood with these four questions</h1></div>
-        <form action = "{% url 'spotify-auth' %}" method="post">
-
+        <form method="POST">
+            {% csrf_token %}
             <div id="drinks">
                 <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
                 <a class="next" onclick="plusSlides(1)">&#10095;</a>
