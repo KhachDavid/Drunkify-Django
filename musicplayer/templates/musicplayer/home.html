@@ -9,68 +9,90 @@
 {% endblock %}
 
 {% block content %}
-<div class="file-title"> <h1>Enjoy Some Music</h1></div>
-<form method="post">
-    <div id="drinks">
-        <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
-        <a class="next" onclick="plusSlides(1)">&#10095;</a>
-        <label>
-             <div class="mySlides" style="display: block;">
-                <img src="{% static 'musicplayer/wine.png' %}">
-                    <p class="drink-name">How many shots have you had?</p>
-                <input type="number" placeholder="Servings" name="bottlesDrunk_0" required>
-            </div>
-        </label>
 
-        <label>
-            <div class="mySlides">
-                <img src="{% static 'musicplayer/beer.png' %}">
-                    <p class="drink-name">Is it a sad or a happy occasion?</p>
-                <input type="text" placeholder="Sad or Happy" name="bottlesDrunk_1" required>
-            </div>
-        </label>
+<div id="hero-section">
+<div class="hero-content">
+<div class="hero-left">
+    <div class="hero-title">
+        <h2>Drunkify</h2>
+<h1>Listen what you feel</h1>
+<button>Register here</button>
 
-        <label>
-            <div class="mySlides">
-                <img src="{% static 'musicplayer/vodka.png' %}">
-                    <p class="drink-name">Vodka</p>
-                <input type="number" placeholder="Servings" name="bottlesDrunk_2">
-            </div>
-
-            <div class="mySlides">
-                <img src="{% static 'musicplayer/gin.png' %}">
-                    <p class="drink-name">Gin</p>
-                <input type="number" placeholder="Servings" name="bottlesDrunk_3">
-            </div>
-
-            <div class="mySlides">
-                <img src="{% static 'musicplayer/rum.png' %}">
-                    <p class="drink-name">Rum</p>
-                <input type="number" placeholder="Servings" name="bottlesDrunk_4">
-            </div>
-
-            <div class="dot-container">
-                <span class="dot" onclick="currentSlide(1)"></span>
-                <span class="dot" onclick="currentSlide(2)"></span>
-                <span class="dot" onclick="currentSlide(3)"></span>
-                <span class="dot" onclick="currentSlide(4)"></span>
-                <span class="dot" onclick="currentSlide(5)"></span>
-            </div>
-        </div>
-    <input type="submit" value="Submit" class="drink-it">
-</form>
-
-<div id="drink-score">
-    <h1> Your BAC is <div id="score">0!</div></h1>
-</div>
-
-<div class="audio-buttons">
-    <div class="drink-audio">
-        <h3>Click the button to be redirected to a spotify playlist</h3>
     </div>
-    <form action="#"method="get" target="_blank" rel="noopener noreferrer">
-        <button type="submit">Enjoy the playlist</button>
-    </form>
 </div>
+
+<div class="hero-right">
+    <img src="{% static 'musicplayer/hero-image.png' %}" class="hero-image">
+</div>
+</div>
+</div>
+
+<div id="main-home">
+    <div class="main-home-container">
+       <h3>Looking for personalized music?</h3>
+        <h4>Start listening what you feel</h4>
+        <button class="main-home-button">Launch it now</button>
+
+    </div>
+</div>
+
+
+
+<footer>
+  <div class="footer-container">
+    <div class="footer-logo">
+      <img src="{% static 'musicplayer/logo.png' %}">
+    </div>
+    <div class="footer-pages">
+        <div class="footer-menu">
+            <div class="footer-title">
+                <h4>Company</h4>
+                </div>
+            <ul>
+                <li><a href="#">About</a></li>
+                <li><a href="#">Profile</a></li>
+                <li><a href="#">Contact</a></li>
+            </ul>  
+        </div>
+
+            
+            
+                 
+    </div>
+    <div class="footer-social">
+
+            <a href="#" target="_blank"><i class="fab fa-facebook-f" aria-hidden="true"></i></a>
+            <a href="#" target="_blank"><i class="fab fa-twitter" aria-hidden="true"></i></a>
+            <a href="#" target="_blank"><i class="fab fa-instagram" aria-hidden="true"></i></a>
+			
+</div>
+
+
+
+
+    <div class="footer-bottom">
+        <div class="footer-language"><img src="{% static 'musicplayer/rs.svg' %}"><span>Serbia</span></div>
+        <ul>
+            <li><a href="#">one page</a></li>
+            <li><a href="#">one page</a></li>
+            <li><a href="#">one page</a></li>
+            <li><a href="#">one page</a></li>
+            <li><a href="#">one page</a></li>
+        </ul>
+
+        <div class="footer-copyright">
+            
+            
+            © 2020 Drunkyfy AB
+        </div>
+
+
+        </div>
+
+  </div>
+
+
+
+</footer>
 
 {% endblock %}
