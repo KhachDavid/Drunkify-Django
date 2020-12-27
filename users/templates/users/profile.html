@@ -4,14 +4,15 @@
 
 {% block content %}
     <div class="content-section">
-      <div class="media">
+      <div class="profile-media">
         <img class="rounded-circle account-img" src ="{{ user.profile.image.url }}" alt="image alt text" width="125" height="125">
         <div class="media-body">
           <h2 class="account-heading">{{ user.username }}</h2>
           <p class="text-secondary">{{ user.email }}</p>
+          <iframe src="{{ user.profile.playlist }}" class="Play" width="300" height=500" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
         </div>
       </div>
       <!-- FORM HERE -->
     </div>
-    <iframe src="{{ user.profile.playlist }}" class="Play" width="300" height=500" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
+    
 {% endblock content %}
