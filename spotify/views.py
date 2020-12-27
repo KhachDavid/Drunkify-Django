@@ -1,7 +1,6 @@
 from django.shortcuts import render, redirect
 from .SpotifyAPI import SpotifyAPI, embedify
 import json, requests, random
-import speech_recognition as sr
 from .forms import MoodForm
 from .models import Mood
 
