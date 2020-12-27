@@ -5,6 +5,8 @@ import requests, json
 from musicplayer.models import Song
 from .quick_sort import quick_sort
 import random
+from .Song import Song_by
+
 
 def embedify(random_track):
     random_track2 = random_track
@@ -316,7 +318,7 @@ class SpotifyAPI(object):
     def get_low_valence_songs(self, audio_features):
         tracks = []
         for i in range(len(audio_features['audio_features'])):
-            new_song = Song(audio_features['audio_features'][i]['valence'],
+            new_song = Song_by(audio_features['audio_features'][i]['valence'],
                             audio_features['audio_features'][i]['id'])
             tracks.append(new_song)
         quick_sort(tracks, 0, len(tracks) - 1)

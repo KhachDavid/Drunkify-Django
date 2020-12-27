@@ -18,17 +18,15 @@ REDIRECT_URI = "{}:{}/callback".format(CLIENT_SIDE_URL, PORT)
 print(REDIRECT_URI)
 
 def auth(request):
+    print(request.method)
     if request.method == 'POST':
         form = MoodForm(request.POST)
         if form.is_valid():
-            sad_or_happy = form.cleaned_data['sad_or_happy']
+            sad_or_happy = request.POST['sad_or_happy']
             request.session['sad_or_happy'] = sad_or_happy
             print(f'{sad_or_happy} :sad_or_happy')
-            form.save()
         else:
             form = MoodForm()  
-            sad_or_happy = form.cleaned_data['sad_or_happy']
-            print(f'{sad_or_happy} :sad_or_happy')
     return redirect(client.generate_auth_url())
 
 def callback(request):
@@ -77,9 +75,13 @@ def callback(request):
     tracks_response = requests.get(f"https://api.spotify.com/v1/playlists/{playlist_id}/tracks",
                                    headers=authorization_header)
     tracks_data = json.loads(tracks_response.text)
-
-    random_track = tracks_data['items'][random.randint(0, len(tracks_data['items']) - 1)]['track']['external_urls'][
+    try:
+        random_track = tracks_data['items'][random.randint(0, len(tracks_data['items']) - 1)]['track']['external_urls'][
         'spotify']
+    except TypeError:
+        random_track = tracks_data['items'][random.randint(0, len(tracks_data['items']) - 1)]['track']['external_urls'][
+        'spotify']
+    
 
     # Turning from this https://open.spotify.com/track/7HKez549fwJQDzx3zLjHKC
     #                           |
@@ -101,7 +103,7 @@ def callback(request):
     tracks = []
     for track in tracks_data['items']:        
         try:
-            print(track['track']['id'])
+            # print(track['track']['id'])
             tracks.append(track['track']['id'])
         except TypeError:
             pass
@@ -109,15 +111,13 @@ def callback(request):
 
     # Obtain Audio Features For the Songs
     audio_features = client.get_audio_features(auth_header=authorization_header, track_ids=tracks)
-    print(audio_features['audio_features'][0]['danceability'])
 
     # Speech Recognizer
     # run_speech_recognizer()
     
     # Analyze user answers
-    form = MoodForm()
-
     sad_or_happy = request.session.get('sad_or_happy')
+    print(sad_or_happy)
     if sad_or_happy is not None:
         if 'sad' in sad_or_happy:
             random_track = client.get_low_valence_songs(audio_features)
@@ -128,6 +128,5 @@ def callback(request):
         'prof_pic': prof_pic,
         'random_track': random_track,
         'users_name': users_name,
-        'form': form,
     }
     return render(request, "spotify/main.html", context)
