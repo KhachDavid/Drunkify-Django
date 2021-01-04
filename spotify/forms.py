@@ -1,5 +1,4 @@
 from django import forms
-from .models import Mood
 
 class MoodForm(forms.Form):
     class Meta:

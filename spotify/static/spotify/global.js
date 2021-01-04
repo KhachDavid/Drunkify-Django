@@ -31,48 +31,6 @@ var z = document.getElementById("myAudio2");
 var a = document.getElementById("myAudio3");
 var b = document.getElementById("myAudio4");
 
-function playAudio4() {
-    b.play();
-}
-
-function pauseAudio4() {
-    b.pause();
-}
-
-function playAudio3() {
-    a.play();
-}
-
-function pauseAudio3() {
-    a.pause();
-}
-
-function playAudio2() {
-    z.play();
-}
-
-function pauseAudio2() {
-    z.pause();
-}
-
-function playAudio1() {
-    y.play();
-}
-
-function pauseAudio1() {
-    y.pause();
-}
-
-function playAudio() {
-    x.play();
-}
-
-function pauseAudio() {
-    x.pause();
-}
-
-
-
 (function ($) {
     'use strict';
     /*==================================================================

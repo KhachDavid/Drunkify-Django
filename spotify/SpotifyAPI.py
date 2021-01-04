@@ -4,6 +4,7 @@ from urllib.parse import urlencode, quote
 import requests, json
 from musicplayer.models import Song
 from .quick_sort import quick_sort
+from .merge_sort import merge_sort
 import random
 from .Song import Song_by
 
@@ -57,6 +58,8 @@ class SpotifyAPI(object):
         SPOTIFY_API_BASE_URL = "https://api.spotify.com"
         API_VERSION = "v1"
         self.SPOTIFY_API_URL = "{}/{}".format(SPOTIFY_API_BASE_URL, API_VERSION)
+        self.tracks = []
+        self.counter = 0
 
     def get_client_credentials(self):
         """
@@ -270,40 +273,8 @@ class SpotifyAPI(object):
         print(12289739837)
         return auth_url
 
-    def set_no_spotify_dialog_true(self):
-        self.show_no_spotify_dialog_bool = True
-
-    def set_no_spotify_dialog_false(self):
-        self.show_no_spotify_dialog_bool = False
-
-    def get_no_spotify_dialog(self):
-        return self.show_no_spotify_dialog_bool
-
     def get_users_top(self, auth_header, t):
-        if t not in ['artists', 'tracks']:
-            print('invalid type')
-            return None
-        url = 'https://api.spotify.com/v1/me/top/tracks?limit=' + '50' + '&time_range=' + 'medium_term'
-        r_tt = requests.get(url, headers=auth_header)
-        tt_json = r_tt.json()
-        track_list = []
-        track_ids = []
-
-        for x in range(0, tt_json['limit']):
-            track_name = tt_json['items'][x]['name']
-            track_id = tt_json['items'][x]['id']
-            track_album = tt_json['items'][x]['album']['name']
-            track_artist = tt_json['items'][x]['artists'][0]['name']
-
-            track = {'name': track_name,
-                     'artist': track_artist,
-                     'album': track_album,
-                     'id': track_id}
-
-            track_list.append(track)
-            track_ids.append(track_id)
-
-        return track_list, track_ids
+        pass
 
     def get_audio_features(self, auth_header, track_ids):  # track_ids = list of track ids
         GET_AUDIOFEAT_ENDPOINT = "{}/{}".format(self.SPOTIFY_API_URL, 'audio-features/?ids=')  # /<track id>
@@ -315,28 +286,83 @@ class SpotifyAPI(object):
         r_tt = requests.get(url, headers=auth_header)  # Get JSON of each track's audio features
         return r_tt.json()
 
-    def get_low_valence_songs(self, audio_features):
-        tracks = []
-        for i in range(len(audio_features['audio_features'])):
-            new_song = Song_by(audio_features['audio_features'][i]['valence'],
-                            audio_features['audio_features'][i]['id'])
-            tracks.append(new_song)
-        quick_sort(tracks, 0, len(tracks) - 1)
+    def get_song(self, audio_features, high_or_low, song_element):
+        """
+        Generic implementation of a method that searches 
+        for a song based on an element and whether the element
+        is high or low
+        """
+        if len(self.tracks) == 0:
+            self.reset_track_count()
+            if (len(audio_features) == 1):
+                for i in audio_features['audio_features']:
+                    new_song = Song_by(i['id'], i['valence'], i['energy'], i['danceability'])
+                    self.tracks.append(new_song)
+            else:
+                for i in range(len(audio_features)):
+                    for j in range(int(len(audio_features[i]['audio_features']))):
+                        new_song = Song_by(audio_features[i]['audio_features'][j]['id'],
+                                        audio_features[i]['audio_features'][j]['valence'],
+                                        audio_features[i]['audio_features'][j]['energy'],
+                                        audio_features[i]['audio_features'][j]['danceability'])
+                        self.tracks.append(new_song)
+            
+            if len(self.tracks) < 10000:
+                quick_sort(self.tracks, 0, len(self.tracks) - 1, song_element)
+            else:
+                merge_sort(self.tracks, 0, len(self.tracks) - 1, song_element)
+        # If low, return a random track below the 25th percentile
+        if high_or_low == 'low':
+            if len(self.tracks) / 4 == 0:
+                n = random.randint(0, 1)
+                return self.tracks[n].embed_by_id()
+            n = random.randint(0, int(len(self.tracks) / 4))
+            while self.tracks[n].get_seen() and self.counter != len(self.tracks):   
+                self.counter += 1
+                n = random.randint(0, int(len(self.tracks) / 4))
+            class_method = getattr(Song_by, "get_" + song_element)
+            print(song_element + " is " + str(class_method(self.tracks[n])))
+            song_to_return = self.tracks[n]
+            self.tracks[n].set_seen_true()
+            print(song_to_return.get_seen())
+            return song_to_return.embed_by_id()
+        
+        # If high, return a random track above the 75th percentile
+        if high_or_low == 'high':
+            if len(self.tracks) / 4 == 0:
+                n = random.randint(0, 1)
+                return self.tracks[n].embed_by_id()
+            n = random.randint(int((len(self.tracks) * 3 / 4) - 1), int(len(self.tracks) - 1))
+            while self.tracks[n].get_seen() and self.counter != len(self.tracks):
+                n = random.randint(int((len(self.tracks) * 3 / 4) - 1), int(len(self.tracks) - 1))
+                self.counter += 1
+            class_method = getattr(Song_by, "get_" + song_element)
+            print(song_element + " is " + str(class_method(self.tracks[n])))
+            song_to_return = self.tracks[n]
+            self.tracks[n].set_seen_true()
+            print(song_to_return.embed_by_id())
+            return song_to_return.embed_by_id()
 
-        if len(tracks) / 4 == 0:
-            n = random.randint(0, 1)
-            return tracks[n].embed_by_id()
-        n = random.randint(0, int(len(tracks) / 4))
-        print(tracks[n].valence)
-        return tracks[n].embed_by_id()
+    def get_low_valence_songs(self, audio_features):
+        return self.get_song(audio_features, 'low', 'valence')
 
     def get_high_valence_songs(self, audio_features):
-        tracks = []
-        for i in range(len(audio_features['audio_features'])):
-            new_song = Song(audio_features['audio_features'][i]['valence'],
-                            audio_features['audio_features'][i]['id'])
-            tracks.append(new_song)
-        quick_sort(tracks, 0, len(tracks) - 1)
-        n = random.randint(int(len(tracks) * 3 / 4), int(len(tracks) - 1))
-        print(tracks[n].valence)
-        return tracks[n].embed_by_id()
+        return self.get_song(audio_features, 'high', 'valence')
+
+    def get_low_danceability_songs(self, audio_features):
+        return self.get_song(audio_features, 'low', 'danceability')
+
+    def get_high_danceability_songs(self, audio_features):
+        return self.get_song(audio_features, 'high', 'danceability')
+
+    def get_low_energy_songs(self, audio_features):
+        return self.get_song(audio_features, 'low', 'energy')
+
+    def get_high_energy_songs(self, audio_features):
+        return self.get_song(audio_features, 'high', 'danceability')
+
+    def empty_the_tracks(self):
+        self.tracks.clear()
+    
+    def reset_track_count(self):
+        self.counter = 0

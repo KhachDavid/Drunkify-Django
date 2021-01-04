@@ -1,10 +1,14 @@
 {% extends "musicplayer/base_2.html" %}
+{% load static %}   
 {% block title %}Logged Out{% endblock %}
 {% block content %}
-    <h2>You have been logged out</h2>
-    
-    <div>
-        <a href="{% url 'login' %}">Log In Again</a>
+<div class="content-section">
+    <div class="profile-media">
+      <div class="media-body">
+        You have been logged out
+      </div>
     </div>
+    <!-- FORM HERE -->
+  </div>
     
 {% endblock content %}

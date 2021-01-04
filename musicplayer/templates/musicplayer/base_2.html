@@ -16,40 +16,7 @@
 
         <!-- Tab Logo -->
         <link rel="shortcut icon" type="image/x-icon" href="{% static 'musicplayer/logo.png' %}"/> 
-     
-
-        <script src="https://kit.fontawesome.com/854882c910.js" crossorigin="anonymous"></script>
-<script src="{% static 'musicplayer/global.js' %}"></script>
-
-<script src="{% static 'musicplayer/jquery.min.js' %}"></script>
-
-<script>
-$(document).on('scroll', function(){
-  if ( $(window).scrollTop() > 30) {
-      $('header').addClass('change-color');
-  } else {
-      $('header').removeClass('change-color');
-  }
-});
-
-$(document).on('scroll', function(){
-  if ( $(window).scrollTop() > 30) {
-      $('.header-logo').addClass('change-logo');
-  } else {
-      $('.header-logo').removeClass('change-logo');
-  }
-});
-
-</script> 
-
-
-
     </head>
-
-
-
-
-
     <body>
       <header class="site-header">
 
@@ -60,8 +27,8 @@ $(document).on('scroll', function(){
           </div>
               <nav class="header-nav">
                 <ul>
-                  <li><a href="#">About</a></li>
-                  <li><a href="#">Contact</a></li>
+                  <li><a href="{% url 'about' %}">About</a></li>
+                  <li><a href="{% url 'contact' %}">Contact</a></li>
                   <li class="header-space"></li>
                 {% if user.is_authenticated %}
                 <li><a class="image-try" href="{% url 'profile' %}"><img src="{{ user.profile.image.url }}"   class="personal-image"> Profile</a></li>
@@ -77,9 +44,13 @@ $(document).on('scroll', function(){
 
       </header>
 
-
-
-
+        <script src="https://kit.fontawesome.com/854882c910.js" crossorigin="anonymous"></script>
+        <script src="{% static 'musicplayer/global.js' %}"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+        <script src="{% static 'musicplayer/jquery.min.js' %}"></script>
+        <script src="{% static 'musicplayer/scroll.js' %}"></script>
+        
         {% if messages %}
           {% for message in messages %}
             <div class="alert alert-{{ message.tags }}"> 
@@ -88,14 +59,6 @@ $(document).on('scroll', function(){
           {% endfor %}
         {% endif %}
 
-        
-
           {% block content %}BODY CONTENT GOES HERE{% endblock %}
-       
-          
-
-
-
-
     </body>
 </html>

@@ -1,1 +1,1 @@
-django, django-crispy-forms, image, requests
+django, django-crispy-forms, image, requests, SpeechRecognition, PyAudio

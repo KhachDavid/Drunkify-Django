@@ -1,12 +1,14 @@
-def partition(arr, low, high):
+from .Song import Song_by
+
+def partition(arr, low, high, element):
     i = (low - 1)  # index of smaller element
     pivot = arr[high]  # pivot
 
     for j in range(low, high):
-
         # If current element is smaller than or
         # equal to pivot
-        if arr[j].get_valence() <= pivot.get_valence():
+        class_method = getattr(Song_by, "get_" + element)
+        if class_method(arr[j]) <= class_method(pivot):
             # increment index of smaller element
             i = i + 1
             arr[i], arr[j] = arr[j], arr[i]
@@ -23,15 +25,15 @@ def partition(arr, low, high):
 # Function to do Quick sort
 
 
-def quick_sort(arr, low, high):
+def quick_sort(arr, low, high, element):
     if len(arr) == 1:
         return arr
     if low < high:
         # pi is partitioning index, arr[p] is now
         # at right place
-        pi = partition(arr, low, high)
+        pi = partition(arr, low, high, element)
 
         # Separately sort elements before
         # partition and after partition
-        quick_sort(arr, low, pi - 1)
-        quick_sort(arr, pi + 1, high)
+        quick_sort(arr, low, pi - 1, element)
+        quick_sort(arr, pi + 1, high, element)

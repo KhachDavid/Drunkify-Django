@@ -4,16 +4,17 @@
 
 {% block content %}
     <div class="file-title"> <h1>Share your mood with these four questions</h1></div>
-        <form action ="{% url 'spotify-auth' %}" method="post">
+        <p id="recording"></p>
+        <form method="POST" id="mood_form">
             {% csrf_token %}
             <div id="drinks">
                 <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
                 <a class="next" onclick="plusSlides(1)">&#10095;</a>
                 <label>
 				    <div class="mySlides" style="display: block;">
-                        <img src="{{ prof_pic }}" alt="image alt text" width="100" height="100" class="rounded-corners"/>
+                        <img src="{{ prof_pic }}" alt="image alt text" width="100" height="100"/>
                         <div>
-                            <select name="dance_or_no" required>
+                            <select name="dance_or_no" id="dance_or_no" required>
                                 <option value = "" disabled="disabled" selected="selected">Do you want to dance?</option>
                                 <option value = "yes">Yes :)</option>
                                 <option value = "no">No :(</option>
@@ -26,7 +27,7 @@
 				    <div class="mySlides">
                         <img src="{% static 'musicplayer/beer.png' %}">
                         <div>
-                            <select name="sad_or_happy" required>
+                            <select name="sad_or_happy" id="sad_or_happy" required>
                                 <option value = "" disabled="disabled" selected="selected">What is your mood?</option>
                                 <option value = "sad">Sad :(</option>
                                 <option value = "happy">Happy :)</option>
@@ -39,7 +40,7 @@
                     <div class="mySlides">
                         <img src="{% static 'musicplayer/vodka.png' %}">
                         <div>
-                            <select name="tired_or_not" required>
+                            <select name="tired_or_not" id="tired_or_not" required>
                                 <option value = "" disabled="disabled" selected="selected">Do you feel tired?</option>
                                 <option value = "yes">Yes :(</option>
                                 <option value = "no">No :)</option>
@@ -50,37 +51,20 @@
 				    <div class="mySlides">
                         <img src="{% static 'musicplayer/gin.png' %}">
                          <div>
-                            <select name="alone_or_not" required>
+                            <select name="alone_or_not" id="alone_or_not" required>
                                 <option value = "" disabled="disabled" selected="selected">Are you alone?</option>
                                 <option value = "yes">Yes :(</option>
                                 <option value = "no">No :)</option>
                             </select>
                         </div>
                     </div>
-<!--
+                    <!--
                     <div class="mySlides">
                         <img src="static/img/rum.png">
                             <p class="drink-name"></p>
 	                     <input type="number" placeholder="Servings" name="bottlesDrunk_4">
                     </div>
-
-                    <div class="mySlides">
-                        <img src="static/img/tequila.png">
-                            <p class="drink-name"></p>
-	                    <input type="number" placeholder="Servings" name="bottlesDrunk_5">
-                    </div>
-
-                    <div class="mySlides">
-                        <img src="static/img/whiskey.png">
-                            <p class="drink-name"></p>
-	                    <input type="number" placeholder="Servings" name="bottlesDrunk_6">
-                    </div>
-
-                    <div class="mySlides">
-                        <img src="static/img/rakia.png">
-                            <p class="drink-name"></p>
-	                    <input type="number" placeholder="Servings" name="bottlesDrunk_7">
-                    </div> !-->
+                    !-->
                 </label>
 
                 <div class="dot-container">
@@ -88,21 +72,154 @@
                     <span class="dot" onclick="currentSlide(2)"></span>
                     <span class="dot" onclick="currentSlide(3)"></span>
                     <span class="dot" onclick="currentSlide(4)"></span>
-      <!--          <span class="dot" onclick="currentSlide(5)"></span>
-                    <span class="dot" onclick="currentSlide(6)"></span>
-                    <span class="dot" onclick="currentSlide(7)"></span>
-                    <span class="dot" onclick="currentSlide(8)"></span>!-->
                 </div>
-
 			</div>
-            <input type="submit" formmethod="post" value="Submit" class="drink-it">
+            <input type="submit" value="Submit" class="drink-it">
         </form>
-
-    <div id="drink-score"><h1> Your Song is
-        <div id="score"></div></h1>
+        <form method="post" id="voice_form">
+            {% csrf_token %}
+            <input type="hidden" name="record" id="record">
+            <button onclick="myFunction()">Record</button>
+        </form>
+    <div id="drink-score">
+        <div id="no_command"></div>
     </div>
-
-    <iframe src="{{ random_track }}" class="Play" width="300" height="90" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
 </div>
 
+<script>
+    function myFunction(){
+        document.getElementById("recording").innerHTML = "Recording..."
+    }
+
+    function myFunction_remove(){
+        document.getElementById("recording").innerHTML = ""
+    }
+
+    $('#voice_form').on('submit', function(event){
+      event.preventDefault();
+      console.log("form submitted!")  // sanity check
+      update_the_command();
+    });
+
+    function update_the_command() {
+    console.log("create post is working!") // sanity check
+    $.ajax({
+      url : "{% url 'update_the_command' %}", // the endpoint
+      type : "POST", // http method
+      data : { "record" : $('#record').val()}, 
+      // handle a successful response
+      success : function(json) {
+      // remove the value from the input
+        myFunction_remove();
+        console.log(json); // log the returned json to the console
+        $("#drink-score").prepend('<iframe src="'+json.random_track+'" class="Play" width="300" height="90" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>');
+        if (json.flag === true) {
+            repeat_the_command();
+        }
+        console.log("success"); // another sanity check
+      },
+
+  // handle a non-successful response
+      error : function(xhr,errmsg,err) {
+        myFunction_remove();
+        $('#drink-score').html("<div class='alert-box alert radius' data-alert>Oops! We have encountered an error: "+errmsg+
+          " <a href='#' class='close'>&times;</a></div>"); // add the error to the dom
+        console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
+      }
+    });
+    };
+    
+    $('#mood_form').on('submit', function(event){
+      event.preventDefault();
+      console.log("form submitted!")  // sanity check
+      update_the_song();
+    });
+
+    function repeat_the_command() {
+        document.getElementById("no_command ").innerHTML = "Please Repeat"
+    }
+
+    function update_the_song() {
+    console.log("create post is working!") // sanity check
+    $.ajax({
+      url : "{% url 'update_the_song' %}", // the endpoint
+      type : "POST", // http method
+      data : { "dance_or_no" : $('#dance_or_no').val(),
+          "sad_or_happy" : $('#sad_or_happy').val(),
+          "tired_or_not" : $('#tired_or_not').val(),
+          "alone_or_not" : $('#alone_or_not').val()
+       }, 
+      // handle a successful response
+      success : function(json) {
+      // remove the value from the input
+        console.log(json); // log the returned json to the console
+        $("#drink-score").prepend('<iframe src="'+json.random_track+'" class="Play" width="300" height="90" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>');
+        console.log("success"); // another sanity check
+      },
+
+  // handle a non-successful response
+      error : function(xhr,errmsg,err) {
+        $('#drink-score').html("<div class='alert-box alert radius' data-alert>Oops! We have encountered an error: "+errmsg+
+          " <a href='#' class='close'>&times;</a></div>"); // add the error to the dom
+        console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
+      }
+    });
+    };
+
+    $(function() {
+
+    // This function gets cookie with a given name
+    function getCookie(name) {
+        var cookieValue = null;
+        if (document.cookie && document.cookie != '') {
+            var cookies = document.cookie.split(';');
+            for (var i = 0; i < cookies.length; i++) {
+                var cookie = jQuery.trim(cookies[i]);
+                // Does this cookie string begin with the name we want?
+                if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+    var csrftoken = getCookie('csrftoken');
+
+    /*
+    The functions below will create a header with csrftoken
+    */
+
+    function csrfSafeMethod(method) {
+        // these HTTP methods do not require CSRF protection
+        return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+    }
+    function sameOrigin(url) {
+        // test that a given url is a same-origin URL
+        // url could be relative or scheme relative or absolute
+        var host = document.location.host; // host + port
+        var protocol = document.location.protocol;
+        var sr_origin = '//' + host;
+        var origin = protocol + sr_origin;
+        // Allow absolute or scheme relative URLs to same origin
+        return (url == origin || url.slice(0, origin.length + 1) == origin + '/') ||
+            (url == sr_origin || url.slice(0, sr_origin.length + 1) == sr_origin + '/') ||
+            // or any other URL that isn't scheme relative or absolute i.e relative.
+            !(/^(\/\/|http:|https:).*/.test(url));
+    }
+
+    $.ajaxSetup({
+        beforeSend: function(xhr, settings) {
+            if (!csrfSafeMethod(settings.type) && sameOrigin(settings.url)) {
+                // Send the token to same-origin, relative URLs only.
+                // Send the token only if the method warrants CSRF protection
+                // Using the CSRFToken value acquired earlier
+                xhr.setRequestHeader("X-CSRFToken", csrftoken);
+            }
+        }
+    });
+
+    });
+      
+  </script> 
 {% endblock %}

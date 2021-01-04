@@ -63,7 +63,6 @@ def edit_profile(request):
             if 'embed' not in p.playlist:
                 p.playlist = playlist_data_to_change
                 p.save()
-            messages.success(request, f'Account has been updated!')
             return redirect('profile')
     else:
         u_form = UserUpdateForm(instance=request.user)
