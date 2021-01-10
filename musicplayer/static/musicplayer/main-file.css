@@ -116,33 +116,14 @@ margin: 5% 30% 0% 30%;
 }
 
 button {
-	width: 44%;
 	background-color: #fbc2eb;
 }
 
-.drink-it, button {
-	display: block;
-    padding: 11px;
+ button {
 	margin: auto;
 	border: none;
-	border-radius: 15px;
-	-webkit-box-shadow: 2px 2px 6px 0px rgba(0, 0, 0, 0.55);
-    -moz-box-shadow: 2px 2px 6px 0px rgba(0,0,0,0.55);
-    box-shadow: 2px 2px 6px 0px rgba(0,0,0,0.55);
-    transition: box-shadow 450ms, transform 350ms;
 }
 
-.drink-it {
-    margin-top: 1%;
-    background-color: #fbc2eb;
-}
-
-button:hover, .drink-it:hover {
--webkit-box-shadow: 2px 2px 9px 0px rgba(0,0,0,0.55);
--moz-box-shadow: 2px 2px 9px 0px rgba(0,0,0,0.55);
-box-shadow: 2px 2px 9px 0px rgba(0,0,0,0.55);
-transform: scale(1.02);
-}
 
 #drink-score h1{
 color: #a18cd1;
@@ -175,29 +156,32 @@ color: #a18cd1;
 .prev, .next {
   cursor: pointer;
   position: absolute;
-  top: 18%;
+  top: 30%;
   width: auto;
   margin-top: -30px;
   padding: 16px;
-  color: #888;
+  color: black;
   font-weight: bold;
-  font-size: 20px;
+  font-size: 48px;
   border-radius: 0 3px 3px 0;
   user-select: none;
+  transition: filter 350ms;
 }
 
 /* Position the "next button" to the right */
 .next {
-  position: absolute;
-  right: 390px;
+  right: 410px;
   border-radius: 3px 0 0 3px;
-
 }
+
+.prev {
+  left: 410px;
+  border-radius: 3px 0 0 3px;
+}
+
 
 /* On hover, add a black background color with a little bit see-through */
 .prev:hover, .next:hover {
-  background-color: rgba(0,0,0,0.8);
-  color: white;
 }
 
 @media only screen and (max-width: 480px) {
@@ -382,6 +366,10 @@ img.rounded-corners {
 
 /* new code */
 
+html {
+  scroll-behavior: smooth;
+}
+
 
 a {
   text-decoration: none;
@@ -444,9 +432,9 @@ nav ul {
   display: flex;
   flex-wrap: wrap;
   width: 100%;
-  background: -webkit-linear-gradient(70deg, #ff6464 40%, #5ac8fa 40%);
-  background: -o-linear-gradient(70deg, #ff6464 40%, #5ac8fa 40%);
-  background: -moz-linear-gradient(70deg, #ff6464 40%, #5ac8fa 40%);
+  background: -webkit-linear-gradient(70deg, #fbc2eb 50%, #806ab8 40%);
+  background: -o-linear-gradient(70deg, #fbc2eb 50%, #806ab8 40%);
+  background: -moz-linear-gradient(70deg, #fbc2eb 50%, #806ab8 40%);
   
   overflow-y: hidden;
   height:100vh;
@@ -456,6 +444,7 @@ nav ul {
 
 .hero-content {
   height: 100vh;
+  overflow: hidden;
 }
 
 .hero-left {
@@ -482,10 +471,19 @@ nav ul {
 }
 
 .hero-right .hero-image {
-  margin-left: -11.5%;
-    margin-top: 20%;
-    max-height: 1050px;
+  margin-left: -3vw;
+    margin-top: 13vh;
+    max-height: 90%;
 }
+
+/*
+@media only screen and (max-width: 1360px) {
+  .hero-right .hero-image {
+      margin-top: 10vh;
+  }
+}*/
+
+
 
 .hero-title button {
   margin:0;
@@ -495,9 +493,15 @@ nav ul {
   padding: 15px;
   border-radius: 8px;
   box-shadow: none;
+  transition: background-color 500ms, box-shadow 350ms;
 }
 
-
+.hero-title button:hover {
+  background-color: black;
+  -webkit-box-shadow: 2px 2px 9px 0px rgba(0,0,0,0.55);
+-moz-box-shadow: 2px 2px 9px 0px rgba(0,0,0,0.55);
+box-shadow: 2px 2px 9px 0px rgba(0,0,0,0.55);
+}
 
 .change-color {
   background-color: black;
@@ -602,10 +606,15 @@ footer{
   display: block;
   padding: 14px 0;
   color: #999;
+  width: 100%;
+}
+
+.footer-copyright span {
+  float: right;
 }
 
 .footer-language {
-  width:100%;
+  width: 100%;
 }
 
 .footer-language span, .footer-language img {
@@ -634,6 +643,7 @@ footer{
   -ms-transition: all 0.5s;
   -o-transition: all 0.5s;
   transition: all 0.5s;
+  float: right;
 }
 
 .footer-social a:hover {
@@ -662,10 +672,19 @@ footer{
   font-size: 24px;
 }
 
+
+.footer-menu ul li a:hover, .footer-bottom ul li:hover {
+  color: #806ab8;
+}
+
 /* footer end */
 
 
 /* main content home */
+
+#main-home {
+  margin: 5vh 0;
+}
 
 #main-home h3 {
   font-size: 45px;
@@ -680,14 +699,39 @@ text-align: center;
   display: block;
 }
 
-
 .main-home-button {
-  width: 35%;
-  color: white;
+  margin:0;
   background-color: black;
+  color: white;
+  font-size: 26px;
+  padding: 18px;
   border-radius: 8px;
-  color: inherit;
-  text-decoration: none;
+  box-shadow: none;
+  transition: background-color 500ms, box-shadow 350ms;
+
+}
+
+.main-home-button:hover {
+  background-color: #806ab8;
+  -webkit-box-shadow: 2px 2px 9px 0px rgba(0,0,0,0.55);
+-moz-box-shadow: 2px 2px 9px 0px rgba(0,0,0,0.55);
+box-shadow: 2px 2px 9px 0px rgba(0,0,0,0.55);
+
+}
+
+
+
+
+
+button:hover {
+  cursor: pointer;
+}
+
+
+
+.main-home-container a {
+  display: flex;
+  justify-content: center;
 }
 
 /* main content home */
@@ -701,4 +745,112 @@ text-align: center;
 .profile-media {
   border-radius: 15px;
   height: 100vh;
+}
+
+/* end main content home */
+
+
+
+
+/* Lanuched app */
+
+#launched-app-bg {
+  background: -webkit-linear-gradient(70deg, #fbc2eb 50%, #806ab8 40%);
+  background: -o-linear-gradient(70deg, #fbc2eb 50%, #806ab8 40%);
+  background: -moz-linear-gradient(70deg, #fbc2eb 50%, #806ab8 40%);
+  background: linear-gradient(70deg, #fbc2eb 50%, #806ab8 40%);
+  margin-top: -2%;
+  height: 110vh;
+  overflow:hidden;
+}
+
+#launched-app {
+  padding-top: 22vh;
+}
+
+#recording {
+  text-align: center;
+  font-size: 18px;
+  animation-name: example;
+  animation-duration: 4s;
+  animation-iteration-count: infinite;
+}
+
+@keyframes example {
+  from {background-color: red;}
+  to {background-color: yellow;}
+}
+
+.submit-app {
+  font-size: 38px;
+  display: flex;
+  margin: auto;
+  background-color: #806ab8;
+  border: none;
+  border-radius: 8px;
+  padding: 14px;
+}
+
+.record-button {
+  border-radius: 8px;
+  background-color: #806ab8;
+}
+
+.record-button i {
+  font-size: 50px;
+  padding: 5px;
+}
+
+.file-title h1 {
+  font-size: 40px;
+}
+
+#drink-score iframe {
+
+}
+
+/* end Launched app */
+
+
+
+
+
+#q1-answer-1:checked ~ div + div label:first-child, #q2-answer-1:checked ~ div + div label:first-child, #q3-answer-1:checked ~ div + div label:first-child, #q4-answer-1:checked ~ div + div label:first-child {
+  box-shadow: inset 0 0 0 4px white, 0 15px 15px -10px black;
+}
+
+#q1-answer-1:checked ~ div + div label:last-child, #q2-answer-1:checked ~ div + div label:last-child, #q3-answer-1:checked ~ div + div label:last-child, #q4-answer-1:checked ~ div + div label:last-child {
+  box-shadow: inset 0 0 0 0px white, 0 10px 15px -20px black;
+}
+
+
+#q1-answer-2:checked ~ div + div label:last-child, #q2-answer-2:checked ~ div + div label:last-child, #q3-answer-2:checked ~ div + div label:last-child, #q4-answer-2:checked ~ div + div label:last-child {
+  box-shadow: inset 0 0 0 4px white, 0 15px 15px -10px black;
+}
+
+
+
+.question-title {
+  margin-bottom: 1%;
+}
+
+div label .answer {
+  font-size: 25px;
+  background-color: black;
+  color: white;
+  padding: 15px;
+  border-radius: 8px;
+}
+
+input {
+  display: none;
+}
+
+.question-list {
+  display: flex;
+  justify-content: center;
+}
+
+.question-list div {
+  margin: 0 10px;
 }

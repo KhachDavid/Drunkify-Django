@@ -103,7 +103,6 @@ def callback(request):
     except:
         prof_pic = "/static/musicplayer/wine.png"
     # Get Audio Features
-    
     tracks = []
     for i in range(len(list_of_songs)):
         for track in list_of_songs[i]['items']:        
@@ -142,16 +141,20 @@ def callback(request):
     return render(request, "spotify/main.html", context)
 
 def update_the_song(request):
+    random_track = ''
     if request.method == 'POST':
-        sad_or_happy = request.POST['sad_or_happy']
-        dance_or_no = request.POST['dance_or_no']
-        tired_or_not = request.POST['tired_or_not']
-        alone_or_not = request.POST['alone_or_not']
+        sad_or_happy = request.POST.get('sad_or_happy')
+        dance_or_no = request.POST.get('dance_or_no')
+        tired_or_not = request.POST.get('tired_or_not')
+        alone_or_not = request.POST.get('alone_or_not')
         request.session['sad_or_happy'] = sad_or_happy
         request.session['alone_or_not'] = alone_or_not
         request.session['dance_or_no'] = dance_or_no
         request.session['tired_or_not'] = tired_or_not
-  
+        print(str(sad_or_happy) + "sss")
+        print(dance_or_no)
+        print(tired_or_not)
+        print(alone_or_not)
         response_data = {}
         audio_features = request.session.get('audio_features')
         # print(f"{sad_or_happy}: sad_or_happy")
@@ -166,6 +169,7 @@ def update_the_song(request):
             sad_or_happy = None
 
         response_data['random_track'] = random_track
+        response_data['flag'] = False
         return HttpResponse(
             json.dumps(response_data),
             content_type="application/json")
@@ -192,8 +196,10 @@ def update_the_command(request):
         except sr.UnknownValueError:
             # Don't send anything 
             output = "Could not understand audio"
-            response_data['random_track'] = random_track
             response_data['flag'] = True
+            return HttpResponse(
+                json.dumps(response_data),
+                content_type="application/json")
         except sr.RequestError as e:
             output = "Could not request results; {0}".format(e)
         data = output
@@ -208,7 +214,7 @@ def update_the_command(request):
             elif 'happy' in data:
                 random_track = client.get_high_valence_songs(audio_features)
             response_data['random_track'] = random_track
-            response_data['data'] = data
+            response_data['flag'] = False
             return HttpResponse(
             json.dumps(response_data),
             content_type="application/json")
@@ -222,5 +228,5 @@ def update_the_command(request):
     else:
         return HttpResponse(
             json.dumps({"nothing to see": "this isn't happening"}),
-            content_type="application/json"
+            content_type="application/json" 
         )

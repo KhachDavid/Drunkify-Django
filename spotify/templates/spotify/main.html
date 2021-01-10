@@ -3,8 +3,11 @@
 {% block title %}{{ users_name }}{% endblock %}
 
 {% block content %}
-    <div class="file-title"> <h1>Share your mood with these four questions</h1></div>
-        <p id="recording"></p>
+<div id="launched-app-bg">
+<div id="launched-app">
+      <div class="file-title"> <h1>Share your mood with these four questions</h1>
+     </div>
+        <p id="recording"></p>   <!--  This is where the recording... appears after the user clicks on record button    -->
         <form method="POST" id="mood_form">
             {% csrf_token %}
             <div id="drinks">
@@ -12,34 +15,92 @@
                 <a class="next" onclick="plusSlides(1)">&#10095;</a>
                 <label>
 				    <div class="mySlides" style="display: block;">
-                        <img src="{{ prof_pic }}" alt="image alt text" width="100" height="100"/>
+                        <div class="question-list">
+                            <div id="dance_or_no" name="dance_or_no">
+                                <input type="radio" id="q1-answer-1" class="question-1" name="qustion-1" value="yes">
+                                <input type="radio" id="q1-answer-2" class="question-1" name="qustion-1" value="no">
+                                <div class="question-title">
+                                    <h3>Do you want to dance?</h3>
+                                </div>
+   
+                                <div>
+                                    <label for="q1-answer-1" class="answer">YES</label>
+                                    <label for="q1-answer-2" class="answer">NO</label>
+                                </div>
+               
+                            </div>
+
+                            <div id="sad_or_happy" name="sad_or_happy"> 
+                                <input type="radio" id="q2-answer-1" class="question-2" name="qustion-2" value="sad">
+                                <input type="radio" id="q2-answer-2" class="question-2" name="qustion-2" value="happy">
+                                <div class="question-title">
+                                    <h3>What is your mood?</h3>
+                                </div>
+   
+                                <div>
+                                    <label for="q2-answer-1" class="answer">SAD</label>
+                                    <label for="q2-answer-2" class="answer">HAPPY</label>
+                                </div>
+               
+                            </div>
+
+                            <div id="alone_or_not" name="alone_or_not">
+                                <input type="radio" id="q3-answer-1" name="qustion-3" class="question-3" value="yes">
+                                <input type="radio" id="q3-answer-2" name="qustion-3" class="question-3" value="no">
+                                <div class="question-title">
+                                    <h3>Are you alone?</h3>
+                                </div>
+   
+                                <div>
+                                    <label for="q3-answer-1" class="answer">YES</label>
+                                    <label for="q3-answer-2" class="answer">NO</label>
+                                </div>
+               
+                            </div>
+
+                            <div id="tired_or_not" name="tired_or_not">
+                                <input type="radio" id="q4-answer-1" name="qustion-4" class="question-4" value="yes">
+                                <input type="radio" id="q4-answer-2" name="qustion-4" class="question-4" value="no">
+                                <div class="question-title">
+                                    <h3>Are you tired? </h3>
+                                </div>
+
+                                <div>
+                                    <label for="q4-answer-1" class="answer">YES</label>
+                                    <label for="q4-answer-2" class="answer">NO</label>
+                                </div>
+            
+                            </div>
+                        </div> 
+                    </div>
+                </label>
+
+			   <!--  <label>
+				    <div class="mySlides">
                         <div>
                             <select name="dance_or_no" id="dance_or_no" required>
                                 <option value = "" disabled="disabled" selected="selected">Do you want to dance?</option>
                                 <option value = "yes">Yes :)</option>
                                 <option value = "no">No :(</option>
                             </select>
-                        </div>
-                    </div>
-                </label>
 
-			    <label>
-				    <div class="mySlides">
-                        <img src="{% static 'musicplayer/beer.png' %}">
-                        <div>
+
+
+
+
                             <select name="sad_or_happy" id="sad_or_happy" required>
                                 <option value = "" disabled="disabled" selected="selected">What is your mood?</option>
                                 <option value = "sad">Sad :(</option>
                                 <option value = "happy">Happy :)</option>
                             </select>
-                        </div>
-                    </div>
-                </label>
 
-			    <label>
-                    <div class="mySlides">
-                        <img src="{% static 'musicplayer/vodka.png' %}">
-                        <div>
+                            <select name="alone_or_not" id="alone_or_not" required>
+                                <option value = "" disabled="disabled" selected="selected">Are you alone?</option>
+                                <option value = "yes">Yes :(</option>
+                                <option value = "no">No :)</option>
+                            </select>
+
+
                             <select name="tired_or_not" id="tired_or_not" required>
                                 <option value = "" disabled="disabled" selected="selected">Do you feel tired?</option>
                                 <option value = "yes">Yes :(</option>
@@ -47,48 +108,32 @@
                             </select>
                         </div>
                     </div>
+                </label>-->
 
-				    <div class="mySlides">
-                        <img src="{% static 'musicplayer/gin.png' %}">
-                         <div>
-                            <select name="alone_or_not" id="alone_or_not" required>
-                                <option value = "" disabled="disabled" selected="selected">Are you alone?</option>
-                                <option value = "yes">Yes :(</option>
-                                <option value = "no">No :)</option>
-                            </select>
-                        </div>
-                    </div>
-                    <!--
-                    <div class="mySlides">
-                        <img src="static/img/rum.png">
-                            <p class="drink-name"></p>
-	                     <input type="number" placeholder="Servings" name="bottlesDrunk_4">
-                    </div>
-                    !-->
-                </label>
+              
 
                 <div class="dot-container">
                     <span class="dot" onclick="currentSlide(1)"></span>
                     <span class="dot" onclick="currentSlide(2)"></span>
-                    <span class="dot" onclick="currentSlide(3)"></span>
-                    <span class="dot" onclick="currentSlide(4)"></span>
                 </div>
 			</div>
-            <input type="submit" value="Submit" class="drink-it">
+            <input type="submit" value="Submit" class="submit-app">
         </form>
         <form method="post" id="voice_form">
+
             {% csrf_token %}
             <input type="hidden" name="record" id="record">
-            <button onclick="myFunction()">Record</button>
+            <button onclick="myFunction()" class="record-button"><i class="fas fa-microphone"></i></button>
         </form>
-    <div id="drink-score">
+    <div id="drink-score"> <!--  The id with drink-score is where all the songs keep adding after the user clicks on the submit button  -->
         <div id="no_command"></div>
     </div>
 </div>
-
+</div>
+</div>
 <script>
     function myFunction(){
-        document.getElementById("recording").innerHTML = "Recording..."
+        document.getElementById("recording").innerHTML = "Recording"
     }
 
     function myFunction_remove(){
@@ -112,7 +157,7 @@
       // remove the value from the input
         myFunction_remove();
         console.log(json); // log the returned json to the console
-        $("#drink-score").prepend('<iframe src="'+json.random_track+'" class="Play" width="300" height="90" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>');
+        $("#drink-score").prepend('<iframe src="'+json.random_track+'" class="Play" width="300" height="80" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>');
         if (json.flag === true) {
             repeat_the_command();
         }
@@ -144,16 +189,16 @@
     $.ajax({
       url : "{% url 'update_the_song' %}", // the endpoint
       type : "POST", // http method
-      data : { "dance_or_no" : $('#dance_or_no').val(),
-          "sad_or_happy" : $('#sad_or_happy').val(),
-          "tired_or_not" : $('#tired_or_not').val(),
-          "alone_or_not" : $('#alone_or_not').val()
+      data : { "dance_or_no" : $(".question-1:checked").val(),
+          "sad_or_happy" : $(".question-2:checked").val(),
+          "tired_or_not" : $(".question-3:checked").val(),
+          "alone_or_not" : $(".question-4:checked").val()
        }, 
       // handle a successful response
       success : function(json) {
       // remove the value from the input
         console.log(json); // log the returned json to the console
-        $("#drink-score").prepend('<iframe src="'+json.random_track+'" class="Play" width="300" height="90" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>');
+        $("#drink-score").prepend('<iframe src="'+json.random_track+'" class="Play" width="300" height="80" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>');
         console.log("success"); // another sanity check
       },
 

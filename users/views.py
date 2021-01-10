@@ -41,11 +41,9 @@ def register(request):
         form = UserRegisterForm()
     return render(request, 'users/register.html', {'form': form})
 
-
 @login_required
 def profile(request):
     return render(request, 'users/profile.html')
-
 
 @login_required
 def edit_profile(request):
@@ -55,7 +53,7 @@ def edit_profile(request):
                                     request.FILES, 
                                     instance=request.user.profile)
         if u_form.is_valid() and p_form.is_valid():
-            playlist_data = p_form.data['playlist']
+            playlist_data = p_form.data.get('playlist')
             playlist_data_to_change = embedify(playlist_data)
             u_form.save()
             p_form.save()

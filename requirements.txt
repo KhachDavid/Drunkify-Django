@@ -1,1 +1,5 @@
 django, django-crispy-forms, image, requests, SpeechRecognition, PyAudio
+
+# Run py- m pip install pipwin
+# Download the PyAudio version compatible with your Python interpreter from here: https://www.lfd.uci.edu/~gohlke/pythonlibs/#pyaudio
+# Run py-m pipwin install pyaudio
