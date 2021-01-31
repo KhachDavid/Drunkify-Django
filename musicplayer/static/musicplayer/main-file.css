@@ -843,7 +843,7 @@ div label .answer {
 }
 
 input {
-  display: none;
+  display: block;
 }
 
 .question-list {

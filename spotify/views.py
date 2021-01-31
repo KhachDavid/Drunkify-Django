@@ -33,7 +33,7 @@ def callback(request):
         'client_secret': ClientSecret,
     }
     post_request = requests.post(client.get_token_url(), data=code_payload)
-
+        
     # Tokens are Returned to Application
     flag = False
     while not flag:
@@ -124,11 +124,12 @@ def callback(request):
             flag = False
             while not flag:
                 try:
-                    audio_features_index = client.get_audio_features(auth_header=authorization_header, track_ids=tracks[len_of_songs - 100:] if len_of_songs > 100 else tracks[:len_of_songs])
+                    audio_features_index = client.get_audio_features(auth_header=authorization_header, track_ids=tracks[len_of_songs - 99:len_of_songs] if len_of_songs > 100 else tracks[:len_of_songs])
                     audio_features.append(audio_features_index)
                     len_of_songs = len_of_songs - 100
                     flag = True
                 except json.decoder.JSONDecodeError:
+                    print(111)
                     pass
 
     # audio_features['audio_features'][0]['danceability']
@@ -151,10 +152,7 @@ def update_the_song(request):
         request.session['alone_or_not'] = alone_or_not
         request.session['dance_or_no'] = dance_or_no
         request.session['tired_or_not'] = tired_or_not
-        print(str(sad_or_happy) + "sss")
-        print(dance_or_no)
-        print(tired_or_not)
-        print(alone_or_not)
+    
         response_data = {}
         audio_features = request.session.get('audio_features')
         # print(f"{sad_or_happy}: sad_or_happy")

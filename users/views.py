@@ -6,6 +6,7 @@ from .forms import UserRegisterForm, ProfileUpdateForm, UserUpdateForm
 from django.views.decorators.csrf import csrf_protect
 from spotify.SpotifyAPI import embedify
 from .models import Profile
+import requests
 
 @csrf_protect
 def register(request):
@@ -54,6 +55,8 @@ def edit_profile(request):
                                     instance=request.user.profile)
         if u_form.is_valid() and p_form.is_valid():
             playlist_data = p_form.data.get('playlist')
+            image = p_form.cleaned_data['image'].image
+        
             playlist_data_to_change = embedify(playlist_data)
             u_form.save()
             p_form.save()
@@ -61,6 +64,14 @@ def edit_profile(request):
             if 'embed' not in p.playlist:
                 p.playlist = playlist_data_to_change
                 p.save()
+
+            # https://labs.everypixel.com/api/docs
+            client_id = 'J93dlmnXh0XusKixhnpz4K3z'
+            client_secret = 'CT6AhZDFDkn5I18e072dYTVTVB2Plhpw9EzpPPUB55eHucIT'
+            with open(f'media/{p.image.name}','rb') as image:
+                data = {'data': image}
+                keywords = requests.post('https://api.everypixel.com/v1/keywords', files=data, auth=(client_id, client_secret)).json()
+            print(keywords)
             return redirect('profile')
     else:
         u_form = UserUpdateForm(instance=request.user)

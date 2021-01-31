@@ -270,7 +270,7 @@ class SpotifyAPI(object):
     def generate_auth_url(self):
         url_args = "&".join(["{}={}".format(key, quote(val)) for key, val in self.get_auth_query().items()])
         auth_url = "{}/?{}".format(self.get_authentication_url(), url_args)
-        print(12289739837)
+        # print(12289739837)
         return auth_url
 
     def get_users_top(self, auth_header, t):

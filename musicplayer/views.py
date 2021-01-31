@@ -21,7 +21,7 @@ def home(request):
         'flag_link': flag_link,
         'country': country,
     }
-    return render(request, 'musicplayer/home.html', context)
+    return render(request, 'musicplayer/home.html', context)    
 
 def about(request):
     return render(request, 'musicplayer/about.html')
